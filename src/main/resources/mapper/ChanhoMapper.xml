@@ -3,8 +3,48 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.koreait.spring.ChanhoMapper">
+
+    <insert id="insApartmentInfoArr">
+        Insert INTO apartment_info
+        (
+            deal_amount,build_year,deal_year,
+            deal_month,deal_day,dong,arpartment_name,
+            area_for_exclusive_use,jibun,flr,location_cd
+        )
+        values
+        <foreach collection="arr" item="item"  separator=",">
+            (
+                #{item.deal_amount}, #{item.build_year}, #{item.deal_year},
+                #{item.deal_month}, #{item.deal_day}, #{item.dong}, #{item.arpartment_name},
+                #{item.area_for_exclusive_use}, #{item.jibun}, #{item.flr}, #{location_cd}
+            )
+        </foreach>
+
+    </insert>
+
+
+
     <select id="selLocationCodeList" resultType="LocationCodeEntity">
         SELECT cd, local_nm, external_cd
         FROM location_code;
+        <where>
+            <if test="external_cd != null and external_cd != '' ">
+                external_cd = #{external_cd}
+            </if>
+        </where>
     </select>
+
+    <select id="selApartmentInfoList" resultType="ApartmentInfoEntity">
+        SELECT A.*
+        FROM apartment_info A
+        INNER JOIN location_code B
+        ON A.location_cd = B.cd
+        WHERE A.deal_year = #{deal_year}
+          AND A.deal_month = #{deal_month}
+          AND B.external_cd =#{external_cd}
+    </select>
+
+
+
+
 </mapper>
