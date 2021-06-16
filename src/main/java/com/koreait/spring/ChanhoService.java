@@ -29,7 +29,7 @@ public class ChanhoService {
     private ChanhoMapper mapper;
 
     public List<LocationCodeEntity> selLocationCodeList(){
-        return mapper.selLocationCodeList(null);
+        return mapper.selLocationCodeList();
     }
 
 
@@ -103,14 +103,12 @@ public class ChanhoService {
             e.printStackTrace();
         }
 
-        List<LocationCodeEntity> locationList = mapper.selLocationCodeList(null);
-        LocationCodeEntity code = locationList.get(0);
+        for (ApartmentInfoEntity item : list){
+            item.setLocation_cd(Integer.parseInt(param.getExternal_cd()));
+            mapper.insApartmentInfoArr(item);
+        }
 
-        InsertEntity param2 = new InsertEntity();
-        param2.setLocation_cd(code.getCd());
-        param2.setArr(list);
 
-        mapper.insApartmentInfoArr(param2);
 
     }
 

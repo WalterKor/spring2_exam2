@@ -11,15 +11,11 @@
             deal_month,deal_day,dong,arpartment_name,
             area_for_exclusive_use,jibun,flr,location_cd
         )
-        values
-        <foreach collection="arr" item="item"  separator=",">
-            (
-                #{item.deal_amount}, #{item.build_year}, #{item.deal_year},
-                #{item.deal_month}, #{item.deal_day}, #{item.dong}, #{item.arpartment_name},
-                #{item.area_for_exclusive_use}, #{item.jibun}, #{item.flr}, #{location_cd}
-            )
-        </foreach>
-
+        select  #{deal_amount}, #{build_year}, #{deal_year},
+        #{deal_month}, #{deal_day}, #{dong}, #{arpartment_name},
+        #{area_for_exclusive_use}, #{jibun}, #{flr}, cd
+        FROM location_code
+        where external_cd = #{location_cd}
     </insert>
 
 
@@ -27,11 +23,6 @@
     <select id="selLocationCodeList" resultType="LocationCodeEntity">
         SELECT cd, local_nm, external_cd
         FROM location_code;
-        <where>
-            <if test="external_cd != null and external_cd != '' ">
-                external_cd = #{external_cd}
-            </if>
-        </where>
     </select>
 
     <select id="selApartmentInfoList" resultType="ApartmentInfoEntity">

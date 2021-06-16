@@ -10,8 +10,8 @@ import java.util.List;
 @Mapper
 public interface ChanhoMapper {
 
-    int insApartmentInfoArr(InsertEntity param);
-    List<LocationCodeEntity> selLocationCodeList(SearchDTO param);
+    int insApartmentInfoArr(ApartmentInfoEntity param);
+    List<LocationCodeEntity> selLocationCodeList();
     List<ApartmentInfoEntity> selApartmentInfoList(SearchDTO param);
-    void saveData(SearchDTO param);
+
 }
